@@ -1,16 +1,17 @@
 import User from "../model/User.js";
+import asyncHandler from "express-async-handler";
 import bcrypt from "bcryptjs";
 // @desc   Register user
 // @route  POST /api/v1/users/register
 // @access Private/Admin
 
-export const registerUserCtrl = async (req, res) => {
+export const registerUserCtrl = asyncHandler(async (req, res) => {
   const { fullname, email, password } = req.body;
   //Check user exists
   const userExists = await User.findOne({ email });
   if (userExists) {
     //throw
-    res.json({ msg: "User already exists" });
+    throw new Error("User already exists");
   }
   //hash password
   const salt = await bcrypt.genSalt(10);
@@ -22,13 +23,13 @@ export const registerUserCtrl = async (req, res) => {
     message: "User registered successfully",
     data: user,
   });
-};
+});
 
 // @desc   Login user
 // @route  POST /api/v1/users/login
 // @access Public
 
-export const loginUserCtrl = async (req, res) => {
+export const loginUserCtrl = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   // find user in db by email only
   const userFound = await User.findOne({ email });
@@ -39,6 +40,6 @@ export const loginUserCtrl = async (req, res) => {
       userFound,
     });
   } else {
-    res.json({ msg: "Invalid login details" });
+    throw new Error("Invalid login credentials");
   }
-};
+});
