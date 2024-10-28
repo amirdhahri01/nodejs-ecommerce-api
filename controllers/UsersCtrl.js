@@ -2,7 +2,7 @@ import User from "../model/User.js";
 import asyncHandler from "express-async-handler";
 import bcrypt from "bcryptjs";
 import generateToken from "../utils/generateToken.js";
-import { getTokenFromHeader } from "../utils/getTokenFromHeader.js";
+
 // @desc   Register user
 // @route  POST /api/v1/users/register
 // @access Private/Admin
@@ -52,7 +52,5 @@ export const loginUserCtrl = asyncHandler(async (req, res) => {
 // @access Private
 
 export const getUserProfileCtrl = asyncHandler(async (req, res) => {
-  //get token from header
-  const token = getTokenFromHeader(req);
-  res.json({ msg: "Welcome profile page", token });
+  res.json({ msg: "Welcome profile page", userAuthId: req.userAuthId });
 });
