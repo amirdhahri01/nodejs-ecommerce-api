@@ -5,7 +5,7 @@ import {
   getProductCtrl,
   getProductsCtrl,
   updateProductCtrl,
-} from "../controllers/ProductCtrl.js";
+} from "../controllers/productCtrl.js";
 import { isLoggedIn } from "../middlewares/isLoggedIn.js";
 
 const productRoutes = express.Router();
