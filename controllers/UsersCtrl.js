@@ -3,9 +3,11 @@ import asyncHandler from "express-async-handler";
 import bcrypt from "bcryptjs";
 import generateToken from "../utils/generateToken.js";
 
-// @desc   Register user
-// @route  POST /api/v1/users/register
-// @access Private/Admin
+/**
+ *@description Register user
+ *@route POST /api/v1/users/register
+ *@access Private/Admin
+ */
 
 export const registerUserCtrl = asyncHandler(async (req, res) => {
   const { fullname, email, password } = req.body;
@@ -27,13 +29,15 @@ export const registerUserCtrl = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc   Login user
-// @route  POST /api/v1/users/login
-// @access Public
+/**
+ *@description Login user
+ *@route POST /api/v1/users/login
+ *@access Public
+ */
 
 export const loginUserCtrl = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  // find user in db by email only
+  //find user in db by email only
   const userFound = await User.findOne({ email });
   if (userFound && (await bcrypt.compare(password, userFound?.password))) {
     res.json({
@@ -47,9 +51,11 @@ export const loginUserCtrl = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc   Get user profile
-// @route  GET /api/v1/users/profile
-// @access Private
+/** 
+ *@description Get user profile
+ *@route GET /api/v1/users/profile
+ *@access Private
+*/
 
 export const getUserProfileCtrl = asyncHandler(async (req, res) => {
   res.json({ msg: "Welcome profile page", userAuthId: req.userAuthId });

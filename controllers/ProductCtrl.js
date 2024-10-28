@@ -1,9 +1,11 @@
 import Product from "../model/Product.js";
 import asyncHandler from "express-async-handler";
 
-// @desc   Create new product
-// @route  POST /api/v1/products
-// @access Private/Admin
+/**
+ * @description  Create new product
+ * @route  POST /api/v1/products
+ * @access Private/Admin
+ */
 
 export const createProductCtrl = asyncHandler(async (req, res) => {
   const { name, description, category, sizes, colors, price, totalQty, brand } =
@@ -33,9 +35,11 @@ export const createProductCtrl = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc   Get all products
-// @route  GET /api/v1/products
-// @access Public
+/**
+ *@description Get all products
+ *@route  GET /api/v1/products
+ *@access Public
+ */
 
 export const getProductsCtrl = asyncHandler(async (req, res) => {
   //query
@@ -111,7 +115,25 @@ export const getProductsCtrl = asyncHandler(async (req, res) => {
     status: "success",
     results: products.length,
     pagination,
-    message:"Products fetched successfully",
+    message: "Products fetched successfully",
     products,
+  });
+});
+
+/**
+ * @description Get single product
+ * @route Get /api/v1/products/:id
+ * @access Public
+ */
+
+export const getProductCtrl = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  if (!product) {
+    throw new Error("Product not found");
+  }
+  res.json({
+    status: "success",
+    message: "Product fetched successfully",
+    product
   });
 });
