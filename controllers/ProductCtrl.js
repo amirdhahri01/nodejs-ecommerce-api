@@ -90,8 +90,28 @@ export const getProductsCtrl = asyncHandler(async (req, res) => {
   const endIdx = page * limit;
   //total
   const total = await Product.countDocuments();
+  productQuery = productQuery.skip(startIdx).limit(limit);
+  //pagination results
+  const pagination = {};
+  if (endIdx < total) {
+    pagination.next = {
+      page: page + 1,
+      limit,
+    };
+  }
+  if (startIdx > 0) {
+    pagination.prev = {
+      page: page - 1,
+      limit,
+    };
+  }
   //await the query
-  productQuery = productQuery.skip(startIdx).limit(limit)
   const products = await productQuery;
-  res.json({ status: "success", products });
+  res.json({
+    status: "success",
+    results: products.length,
+    pagination,
+    message:"Products fetched successfully",
+    products,
+  });
 });
