@@ -70,7 +70,28 @@ export const getProductsCtrl = asyncHandler(async (req, res) => {
       sizes: { $regex: req.query.size, $options: "i" },
     });
   }
-  //await
+  //filter by price range
+  if (req.query.price) {
+    const priceRange = req.query.price.split("-");
+    //gte : greater or equal
+    //lte : less than or equal to
+    productQuery = productQuery.find({
+      price: { $gte: priceRange[0], $lte: priceRange[1] },
+    });
+  }
+  //pagination
+  //page
+  const page = parseInt(req.query.page) ? parseInt(req.query.page) : 1;
+  //limit
+  const limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 10;
+  //startIdx
+  const startIdx = (page - 1) * limit;
+  //endIdx
+  const endIdx = page * limit;
+  //total
+  const total = await Product.countDocuments();
+  //await the query
+  productQuery = productQuery.skip(startIdx).limit(limit)
   const products = await productQuery;
   res.json({ status: "success", products });
 });
