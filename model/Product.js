@@ -20,7 +20,7 @@ const ProductSchema = new Schema(
       ref: "Category",
       required: true,
     },
-    sizes: {
+    sizes: { 
       type: [String],
       enum: ["S", "M", "L", "XL", "XXL"],
       required: true,
