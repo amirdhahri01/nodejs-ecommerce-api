@@ -12,7 +12,7 @@ const productRoutes = express.Router();
 
 productRoutes.post("/", isLoggedIn, createProductCtrl);
 productRoutes.get("/", getProductsCtrl);
-productRoutes.get("/:id",getProductCtrl)
-productRoutes.put("/:id/update",isLoggedIn,updateProductCtrl)
-productRoutes.delete("/:id/delete",isLoggedIn,deleteProductCtrl)
+productRoutes.get("/:id", getProductCtrl);
+productRoutes.put("/:id/update", isLoggedIn, updateProductCtrl);
+productRoutes.delete("/:id/delete", isLoggedIn, deleteProductCtrl);
 export default productRoutes;
