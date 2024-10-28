@@ -10,7 +10,7 @@ import asyncHandler from "express-async-handler";
 export const createCategoryCtrl = asyncHandler(async (req, res) => {
   const { name } = req.body;
   //category exists
-  const categoryExists = await Category.findOne({ name });
+  const categoryExists = await Category.findOne({ name: name.toLowerCase() });
   if (categoryExists) {
     throw new Error("Category already exists");
   }
