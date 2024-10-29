@@ -9,6 +9,7 @@ import categoryRoutes from "../routers/categoriesRouter.js";
 import brandRoutes from "../routers/brandsRouter.js";
 import colorRoutes from "../routers/colorsRouter.js";
 import reviewRoutes from "../routers/reviewsRouter.js";
+import orderRoutes from "../routers/ordersRouter.js";
 //db connect
 dbConnect();
 const app = express();
@@ -21,6 +22,7 @@ app.use("/api/v1/categories" , categoryRoutes)
 app.use("/api/v1/brands" , brandRoutes)
 app.use("/api/v1/colors" , colorRoutes)
 app.use("/api/v1/reviews" , reviewRoutes)
+app.use("/api/v1/orders", orderRoutes)
 //err middleware
 app.use(notFound);
 app.use(globalErrHandler);
