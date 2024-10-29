@@ -7,6 +7,7 @@ import productRoutes from "../routers/productsRoute.js";
 import { globalErrHandler, notFound } from "../middlewares/globalErrHandler.js";
 import categoryRoutes from "../routers/categoriesRoute.js";
 import brandsRoutes from "../routers/brandsRoute.js";
+import colorsRoutes from "../routers/colorsRoute.js";
 //db connect
 dbConnect();
 const app = express();
@@ -17,6 +18,7 @@ app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/categories" , categoryRoutes)
 app.use("/api/v1/brands" , brandsRoutes)
+app.use("/api/v1/colors" , colorsRoutes)
 //err middleware
 app.use(notFound);
 app.use(globalErrHandler);

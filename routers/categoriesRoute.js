@@ -6,7 +6,7 @@ import {
   getCategoriesCtrl,
   getCategoryCtrl,
   updateCategoryCtrl,
-} from "../controllers/categoryCtrl.js";
+} from "../controllers/categoriesCtrl.js";
 
 const categoryRoutes = express.Router();
 

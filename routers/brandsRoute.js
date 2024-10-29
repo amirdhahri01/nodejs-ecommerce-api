@@ -6,7 +6,7 @@ import {
   getBrandCtrl,
   getBrandsCtrl,
   updateBrandCtrl,
-} from "../controllers/brandCtrl.js";
+} from "../controllers/brandsCtrl.js";
 
 const brandsRoutes = express.Router();
 
