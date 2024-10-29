@@ -1,9 +1,9 @@
 import express from "express";
-import { createOrdersCtrl } from "../controllers/ordersCtrl.js";
+import { createOrderCtrl } from "../controllers/ordersCtrl.js";
 import { isLoggedIn } from "../middlewares/isLoggedIn.js";
 
 const orderRoutes = express.Router();
 
-orderRoutes.post("/", isLoggedIn, createOrdersCtrl);
+orderRoutes.post("/", isLoggedIn, createOrderCtrl);
 
 export default orderRoutes;
