@@ -2,12 +2,12 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import dbConnect from "../config/dbConnect.js";
-import userRoutes from "../routers/usersRoute.js";
-import productRoutes from "../routers/productsRoute.js";
+import userRoutes from "../routers/usersRouter.js";
+import productRoutes from "../routers/productsRouter.js";
 import { globalErrHandler, notFound } from "../middlewares/globalErrHandler.js";
-import categoryRoutes from "../routers/categoriesRoute.js";
-import brandsRoutes from "../routers/brandsRoute.js";
-import colorsRoutes from "../routers/colorsRoute.js";
+import categoryRoutes from "../routers/categoriesRouter.js";
+import brandsRoutes from "../routers/brandsRouter.js";
+import colorsRoutes from "../routers/colorsRouter.js";
 //db connect
 dbConnect();
 const app = express();
