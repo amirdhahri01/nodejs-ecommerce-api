@@ -68,36 +68,42 @@ export const createProductCtrl = asyncHandler(async (req, res) => {
 export const getProductsCtrl = asyncHandler(async (req, res) => {
   //query
   let productQuery = Product.find();
+
   //search by name
   if (req.query.name) {
     productQuery = productQuery.find({
       name: { $regex: req.query.name, $options: "i" },
     });
   }
+
   //filter by brand
   if (req.query.brand) {
     productQuery = productQuery.find({
       brand: { $regex: req.query.brand, $options: "i" },
     });
   }
+
   //filter by category
   if (req.query.category) {
     productQuery = productQuery.find({
       category: { $regex: req.query.category, $options: "i" },
     });
   }
+
   //filter by color
   if (req.query.color) {
     productQuery = productQuery.find({
       colors: { $regex: req.query.color, $options: "i" },
     });
   }
+
   //filter by size
   if (req.query.size) {
     productQuery = productQuery.find({
       sizes: { $regex: req.query.size, $options: "i" },
     });
   }
+
   //filter by price range
   if (req.query.price) {
     const priceRange = req.query.price.split("-");
@@ -107,6 +113,7 @@ export const getProductsCtrl = asyncHandler(async (req, res) => {
       price: { $gte: priceRange[0], $lte: priceRange[1] },
     });
   }
+
   //pagination
   //page
   const page = parseInt(req.query.page) ? parseInt(req.query.page) : 1;
@@ -119,6 +126,7 @@ export const getProductsCtrl = asyncHandler(async (req, res) => {
   //total
   const total = await Product.countDocuments();
   productQuery = productQuery.skip(startIdx).limit(limit);
+
   //pagination results
   const pagination = {};
   if (endIdx < total) {
@@ -133,8 +141,9 @@ export const getProductsCtrl = asyncHandler(async (req, res) => {
       limit,
     };
   }
+
   //await the query
-  const products = await productQuery;
+  const products = await productQuery.populate("reviews");
   res.json({
     status: "success",
     results: products.length,
@@ -151,7 +160,7 @@ export const getProductsCtrl = asyncHandler(async (req, res) => {
  */
 
 export const getProductCtrl = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findById(req.params.id).populate("reviews");
   if (!product) {
     throw new Error("Product not found");
   }

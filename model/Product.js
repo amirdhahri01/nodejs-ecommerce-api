@@ -20,7 +20,7 @@ const ProductSchema = new Schema(
       ref: "Category",
       required: true,
     },
-    sizes: { 
+    sizes: {
       type: [String],
       enum: ["S", "M", "L", "XL", "XXL"],
       required: true,
@@ -63,6 +63,24 @@ const ProductSchema = new Schema(
   { timestamps: true, toJSON: { virtuals: true } }
 );
 
+//Virtuals
+//Total rating
+ProductSchema.virtual("totalReviews").get(function () {
+  const product = this;
+  return product?.reviews?.length;
+});
+//Average rating
+ProductSchema.virtual("averageRating").get(function () {
+  let ratingsTotal = 0;
+  const product = this;
+  product?.reviews?.forEach((review) => {
+    ratingsTotal += review?.rating;
+  });
+  const averageRating = Number(ratingsTotal / product?.reviews?.length).toFixed(
+    1
+  );
+  return averageRating;
+});
 const Product = mongoose.model("Product", ProductSchema);
 
 export default Product;
