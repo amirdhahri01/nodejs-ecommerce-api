@@ -8,12 +8,12 @@ import {
   updateColorCtrl,
 } from "../controllers/colorsCtrl.js";
 
-const colorsRoutes = express.Router();
+const colorRoutes = express.Router();
 
-colorsRoutes.post("/", isLoggedIn, createColorCtrl);
-colorsRoutes.get("/", getColorsCtrl);
-colorsRoutes.get("/:id", getColorCtrl);
-colorsRoutes.put("/:id/update", isLoggedIn, updateColorCtrl);
-colorsRoutes.delete("/:id/delete", isLoggedIn, deleteColorCtrl);
+colorRoutes.post("/", isLoggedIn, createColorCtrl);
+colorRoutes.get("/", getColorsCtrl);
+colorRoutes.get("/:id", getColorCtrl);
+colorRoutes.put("/:id/update", isLoggedIn, updateColorCtrl);
+colorRoutes.delete("/:id/delete", isLoggedIn, deleteColorCtrl);
 
-export default colorsRoutes;
+export default colorRoutes;

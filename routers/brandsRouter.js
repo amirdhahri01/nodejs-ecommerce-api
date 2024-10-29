@@ -8,12 +8,12 @@ import {
   updateBrandCtrl,
 } from "../controllers/brandsCtrl.js";
 
-const brandsRoutes = express.Router();
+const brandRoutes = express.Router();
 
-brandsRoutes.post("/", isLoggedIn, createBrandCtrl);
-brandsRoutes.get("/", getBrandsCtrl);
-brandsRoutes.get("/:id", getBrandCtrl);
-brandsRoutes.put("/:id/update", isLoggedIn, updateBrandCtrl);
-brandsRoutes.delete("/:id/delete", isLoggedIn, deleteBrandCtrl);
+brandRoutes.post("/", isLoggedIn, createBrandCtrl);
+brandRoutes.get("/", getBrandsCtrl);
+brandRoutes.get("/:id", getBrandCtrl);
+brandRoutes.put("/:id/update", isLoggedIn, updateBrandCtrl);
+brandRoutes.delete("/:id/delete", isLoggedIn, deleteBrandCtrl);
 
-export default brandsRoutes;
+export default brandRoutes;
