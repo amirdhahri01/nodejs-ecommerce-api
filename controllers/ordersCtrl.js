@@ -40,8 +40,8 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
     }
     await product.save();
   });
-  res.send({ status: "success", message: "Order created successfully", order });
   //7.Make payment(stripe)
   //8.Payment webhook
   //9.Update the user order
+  res.json({ status: "success", message: "Order created", Order, user });
 });
