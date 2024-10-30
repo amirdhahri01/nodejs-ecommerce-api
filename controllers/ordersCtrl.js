@@ -2,6 +2,10 @@ import Order from "../model/Order.js";
 import asyncHandler from "express-async-handler";
 import User from "../model/User.js";
 import Product from "../model/Product.js";
+import Stripe from "stripe";
+
+//Stripe instance
+const stripe = new Stripe(process.env.STRIPE_KEY);
 
 /**
  * @description Create orders
@@ -45,7 +49,26 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
     await product.save();
   });
   //9.Make payment(stripe)
+  const session = await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: "Hats",
+            description: "Best hat",
+            unit_amount: 10 * 100,
+          },
+        },
+        quantity: 2,
+      },
+    ],
+    mode: "payment",
+    success_url: "http://localhost:3000/success",
+    cancel_url: "http://localhost:3000/cancel",
+  });
+  res.send({ url: session.url });
   //10.Payment webhook
   //11.Update the user order
-  res.json({ status: "success", message: "Order created", Order, user });
+  /*res.json({ status: "success", message: "Order created", Order, user });*/
 });
