@@ -32,6 +32,9 @@ const UserSchema = new Schema(
       lastName: {
         type: "string",
       },
+      phone: {
+        type: "string",
+      },
       address: {
         type: "string",
       },
@@ -41,11 +44,8 @@ const UserSchema = new Schema(
       province: {
         type: "string",
       },
-      country: {
-        type: "string",
-      },
-      phone: {
-        type: "string",
+      postalCode: {
+        type: String,
       },
     },
   },
