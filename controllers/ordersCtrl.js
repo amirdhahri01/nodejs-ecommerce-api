@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import Order from "../model/Order.js";
 import asyncHandler from "express-async-handler";
 import User from "../model/User.js";
@@ -19,7 +21,7 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
   //2.Find the user
   const user = await User.findById(req.userAuthId);
   //3.check if user has shipping address
-  if (!user?.hasShippingAddress) {
+  if (user?.hasShippingAddress === false) {
     throw new Error("Please provide shipping address");
   }
   //4.Check if order is not empty
@@ -57,8 +59,8 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
           product_data: {
             name: "Hats",
             description: "Best hat",
-            unit_amount: 10 * 100,
           },
+          unit_amount: 1e3,
         },
         quantity: 2,
       },
@@ -69,6 +71,8 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
   });
   res.send({ url: session.url });
   //10.Payment webhook
+  
   //11.Update the user order
+
   /*res.json({ status: "success", message: "Order created", Order, user });*/
 });
