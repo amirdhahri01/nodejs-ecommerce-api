@@ -50,8 +50,7 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
     }
     await product.save();
   });
-  //Make payment(Stripe)
-  //Convert order items to have same structure that stripe need
+  //9.Convert order items to have same structure that stripe need
   const convertedOrders = orderItems.map((item) => {
     return {
       price_data: {
@@ -65,7 +64,7 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
       quantity: item?.qty,
     };
   });
-  //9.Make payment(stripe)
+  //10.Make payment(stripe)
   const session = await stripe.checkout.sessions.create({
     line_items: convertedOrders,
     metadata: {
@@ -76,4 +75,19 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
     cancel_url: "http://localhost:3000/cancel",
   });
   res.send({ url: session.url });
+});
+
+/**
+ * @description Get all orders
+ * @route   GET /api/v1/orders
+ * @access  Private
+ */
+
+export const getAllOrdersCtrl = asyncHandler(async (req, res) => {
+  const orders = await Order.find();
+  res.json({
+    status: "success",
+    message: "Orders fetched successfully",
+    orders,
+  });
 });
