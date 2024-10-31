@@ -37,7 +37,15 @@ CouponSchema.virtual("isExpired").get(function () {
   return coupon.endDate > Date.now();
 });
 
-//2.validation of the date
+CouponSchema.virtual("daysLeft").get(function () {
+  const coupon = this;
+  const daysLeft = Math.ceil(
+    (Date.now() - coupon.endDate) / (1000 * 60 * 60 * 24)
+  );
+  return daysLeft + " Days Left";
+});
+
+//2.validations middlewares for the date
 
 CouponSchema.pre("validate", function (next) {
   const coupon = this;
@@ -63,7 +71,7 @@ CouponSchema.pre("validate", function (next) {
   next();
 });
 
-//3.validation of the discount
+//3.validations middlewars for the discount
 
 CouponSchema.pre("validate", function (next) {
   const coupon = this;

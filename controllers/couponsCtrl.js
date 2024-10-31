@@ -27,12 +27,27 @@ export const createCouponCtrl = asyncHandler(async (req, res) => {
     endDate,
     discount,
     user: req.userAuthId,
-    code
+    code,
   });
   //5.send the reponse
   res.status(201).json({
     status: "success",
     message: "Coupon ceated successfully",
     coupon,
+  });
+});
+
+/**
+ * @description Get coupons with day left
+ * @route   GET /api/v1/coupons
+ * @access  Private/Admin
+ */
+
+export const getCouponsCtrl = asyncHandler(async (req, res) => {
+  const coupons = await Coupon.find();
+  res.json({
+    statuc: "success",
+    message: "Coupons fetchead successfully",
+    coupons,
   });
 });
