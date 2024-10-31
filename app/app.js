@@ -12,6 +12,7 @@ import reviewRoutes from "../routers/reviewsRouter.js";
 import orderRoutes from "../routers/ordersRouter.js";
 import Stripe from "stripe";
 import Order from "../model/Order.js";
+import couponRoutes from "../routers/couponsRouter.js";
 //db connect
 dbConnect();
 const app = express();
@@ -71,6 +72,7 @@ app.use("/api/v1/brands", brandRoutes);
 app.use("/api/v1/colors", colorRoutes);
 app.use("/api/v1/reviews", reviewRoutes);
 app.use("/api/v1/orders", orderRoutes);
+app.use("/api/v1/coupons" , couponRoutes)
 //Err middleware
 app.use(notFound);
 app.use(globalErrHandler);
