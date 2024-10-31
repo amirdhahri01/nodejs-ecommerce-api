@@ -14,26 +14,19 @@ import Stripe from "stripe";
 //db connect
 dbConnect();
 const app = express();
-//Pass incoming data
-app.use(express.json());
-//Routes
-app.use("/api/v1/users", userRoutes);
-app.use("/api/v1/products", productRoutes);
-app.use("/api/v1/categories", categoryRoutes);
-app.use("/api/v1/brands", brandRoutes);
-app.use("/api/v1/colors", colorRoutes);
-app.use("/api/v1/reviews", reviewRoutes);
-app.use("/api/v1/orders", orderRoutes);
+
 //Stripe webhook
 const stripe = new Stripe(process.env.STRIPE_KEY);
-const endpointSecret = "whsec_...";
+const endpointSecret =
+  "whsec_b70e4113e34cb61f85ca930f2cc62e24f484e28598abc9ee693f3a5fef874947";
 app.post(
   "/webhook",
   express.raw({ type: "application/json" }),
   (request, response) => {
+    console.log("hello world"); 
     const sig = request.headers["stripe-signature"];
     let event;
-    try {
+    try { 
       event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
     } catch (err) {
       response.status(400).send(`Webhook Error: ${err.message}`);
@@ -56,7 +49,16 @@ app.post(
     response.json({ received: true });
   }
 );
-app.listen(4242, () => console.log("Running on port 4242"));
+//Pass incoming data
+app.use(express.json());
+//Routes
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/products", productRoutes);
+app.use("/api/v1/categories", categoryRoutes);
+app.use("/api/v1/brands", brandRoutes);
+app.use("/api/v1/colors", colorRoutes);
+app.use("/api/v1/reviews", reviewRoutes);
+app.use("/api/v1/orders", orderRoutes);
 //Err middleware
 app.use(notFound);
 app.use(globalErrHandler);
