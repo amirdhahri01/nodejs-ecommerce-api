@@ -41,10 +41,15 @@ const OrderSchema = new Schema(
       type: String,
       default: "Not specified",
     },
+    totalPrice: {
+      type: Number,
+      required: true,
+      default:0
+    },
     //For admin
     status: {
       type: String,
-      default : "pending",
+      default: "pending",
       enum: ["pending", "processing", "shipped", "delivered"],
     },
     deliveredAt: {

@@ -5,6 +5,7 @@ import asyncHandler from "express-async-handler";
 import User from "../model/User.js";
 import Product from "../model/Product.js";
 import Stripe from "stripe";
+import Coupon from "../model/Coupon.js";
 
 //Stripe instance
 const stripe = new Stripe(process.env.STRIPE_KEY);
@@ -16,30 +17,43 @@ const stripe = new Stripe(process.env.STRIPE_KEY);
  */
 
 export const createOrderCtrl = asyncHandler(async (req, res) => {
-  //1.Get the payload(customer(user),orderItems,shippingAddress,totalPrice)
+  //1.Get the coupon
+  const { coupon } = req.query;
+  const coupondFound = await Coupon.findOne({ code: coupon?.toUpperCase() });
+  if (coupondFound?.isExpired) {
+    throw new Error("Coupon has expired");
+  }
+  if (!coupondFound) {
+    throw new Error("Coupon doesn't exists");
+  }
+  //2.Get discount
+  const discount = coupondFound?.discount / 100;
+  //2.Get the payload(customer(user),orderItems,shippingAddress,totalPrice)
   const { orderItems, shippingAddress, totalPrice } = req.body;
-  //2.Find the user
+  //3.Find the user
   const user = await User.findById(req.userAuthId);
-  //3.check if user has shipping address
+  //4.check if user has shipping address
   if (user?.hasShippingAddress === false) {
     throw new Error("Please provide shipping address");
   }
-  //4.Check if order is not empty
+  //5.Check if order is not empty
   if (orderItems?.length <= 0) {
     throw new Error("No order items");
-  }
-  //5.Place/create order - save into DB
+  } 
+  //6.Place/create order - save into DB
   const order = await Order.create({
     user: user?._id,
     orderItems,
     shippingAddress,
-    totalPrice,
+    totalPrice: coupondFound ? totalPrice - totalPrice * discount : totalPrice,
   });
-  //6.Push order into user
+  console.log(order);
+  
+  //7.Push order into user
   user.orders.push(order?._id);
-  //7.Resave
+  //8.Resave
   await user.save();
-  //8.Update the product qty
+  //9.Update the product qty
   const products = await Product.find({ _id: { $in: orderItems } });
   orderItems?.map(async (order) => {
     const product = products?.find(
@@ -50,7 +64,7 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
     }
     await product.save();
   });
-  //9.Convert order items to have same structure that stripe need
+  //10.Convert order items to have same structure that stripe need
   const convertedOrders = orderItems.map((item) => {
     return {
       price_data: {
@@ -64,7 +78,7 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
       quantity: item?.qty,
     };
   });
-  //10.Make payment(stripe)
+  //11.Make payment(stripe)
   const session = await stripe.checkout.sessions.create({
     line_items: convertedOrders,
     metadata: {

@@ -27,7 +27,7 @@ export const createCouponCtrl = asyncHandler(async (req, res) => {
     endDate,
     discount,
     user: req.userAuthId,
-    code,
+    code:code?.toUpperCase(),
   });
   //5.send the reponse
   res.status(201).json({
