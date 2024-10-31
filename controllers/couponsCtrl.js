@@ -27,7 +27,7 @@ export const createCouponCtrl = asyncHandler(async (req, res) => {
     endDate,
     discount,
     user: req.userAuthId,
-    code:code?.toUpperCase(),
+    code: code?.toUpperCase(),
   });
   //5.send the reponse
   res.status(201).json({
@@ -38,7 +38,7 @@ export const createCouponCtrl = asyncHandler(async (req, res) => {
 });
 
 /**
- * @description Get coupons with day left
+ * @description Get coupons
  * @route   GET /api/v1/coupons
  * @access  Private/Admin
  */
@@ -49,5 +49,63 @@ export const getCouponsCtrl = asyncHandler(async (req, res) => {
     statuc: "success",
     message: "Coupons fetchead successfully",
     coupons,
+  });
+});
+
+/**
+ * @description Get coupon
+ * @route   GET /api/v1/coupons/:id
+ * @access  Private/Admin
+ */
+
+export const getCouponCtrl = asyncHandler(async (req, res) => {
+  const couponID = req.params.id;
+  const coupon = await Coupon.findById(couponID);
+  res.json({
+    status: "success",
+    messge: "Coupon fetched successfully",
+    coupon,
+  });
+});
+
+/**
+ * @description Update coupon
+ * @route   PUT /api/v1/coupons/update/:id
+ * @access  Private/Admin
+ */
+
+export const updateCouponCtrl = asyncHandler(async (req, res) => {
+  const { code, startDate, endDate, discount } = req.body;
+  const couponID = req.params.id;
+  const coupon = await Coupon.findByIdAndUpdate(
+    couponID,
+    {
+      code,
+      startDate,
+      endDate,
+      discount,
+    },
+    { new: true }
+  );
+  res.json({
+    status: "success",
+    messge: "Coupon updated successfully",
+    coupon,
+  });
+});
+
+/**
+ * @description Delete coupon
+ * @route   DELETE /api/v1/coupons/delete/:id
+ * @access  Private/Admin
+ */
+
+export const deleteCouponCtrl = asyncHandler(async (req, res) => {
+  const couponID = req.params.id;
+  const coupon = await Coupon.findByIdAndDelete(couponID);
+  res.json({
+    status: "success",
+    messge: "Coupon deleted successfully",
+    coupon,
   });
 });
