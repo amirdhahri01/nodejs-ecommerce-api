@@ -58,7 +58,13 @@ export const loginUserCtrl = asyncHandler(async (req, res) => {
  */
 
 export const getUserProfileCtrl = asyncHandler(async (req, res) => {
-  res.json({ msg: "Welcome profile page", userAuthId: req.userAuthId });
+  //1. Find the user
+  const user = await User.findById(req.userAuthId).populate("orders");
+  res.json({
+    status: "success",
+    message: "User profile fetched successfully",
+    user,
+  });
 });
 
 /**
