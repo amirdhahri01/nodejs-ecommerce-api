@@ -58,7 +58,7 @@ export const getCategoryCtrl = asyncHandler(async (req, res) => {
 
 /**
  * @description Update category
- * @route PUT /api/v1/categories/:id/update
+ * @route PUT /api/v1/categories/update/:id/
  * @access Private/Admin
  */
 
@@ -81,7 +81,7 @@ export const updateCategoryCtrl = asyncHandler(async (req, res) => {
 
 /**
  * @description Delete category
- * @route DELETE /api/v1/categories/:id/update
+ * @route DELETE /api/v1/categories/delete/:id/
  * @access Private/Admin
  */
 

@@ -81,7 +81,7 @@ export const updateColorCtrl = asyncHandler(async (req, res) => {
 
 /**
  * @description Delete color
- * @route DELETE /api/v1/colors/:id/update
+ * @route DELETE /api/v1/colors/delete/:id
  * @access Private/Admin
  */
 

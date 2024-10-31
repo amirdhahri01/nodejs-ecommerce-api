@@ -173,7 +173,7 @@ export const getProductCtrl = asyncHandler(async (req, res) => {
 
 /**
  * @description Update product
- * @route PUT /api/v1/products/:id/update
+ * @route PUT /api/v1/products/update/:id/
  * @access Private/Admin
  */
 
@@ -204,7 +204,7 @@ export const updateProductCtrl = asyncHandler(async (req, res) => {
 
 /**
  * @description Delete product
- * @route DELETE /api/v1/products/:id/update
+ * @route DELETE /api/v1/products/delete/:id/
  * @access Private/Admin
  */
 

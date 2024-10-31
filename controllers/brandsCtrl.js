@@ -1,4 +1,4 @@
-import Brand from "../model/Brand.js"
+import Brand from "../model/Brand.js";
 import asyncHandler from "express-async-handler";
 
 /**
@@ -58,7 +58,7 @@ export const getBrandCtrl = asyncHandler(async (req, res) => {
 
 /**
  * @description Update brand
- * @route PUT /api/v1/brands/:id/update
+ * @route PUT /api/v1/brands/update/:id/
  * @access Private/Admin
  */
 
@@ -81,7 +81,7 @@ export const updateBrandCtrl = asyncHandler(async (req, res) => {
 
 /**
  * @description Delete brand
- * @route DELETE /api/v1/brands/:id/update
+ * @route DELETE /api/v1/brands/update/:id/
  * @access Private/Admin
  */
 
