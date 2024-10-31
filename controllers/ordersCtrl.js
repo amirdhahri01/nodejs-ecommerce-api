@@ -50,29 +50,30 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
     }
     await product.save();
   });
+  //Make payment(Stripe)
+  //Convert order items to have same structure that stripe need
+  const convertedOrders = orderItems.map((item) => {
+    return {
+      price_data: {
+        currency: "usd",
+        product_data: {
+          name: item?.name,
+          description: item?.description,
+        },
+        unit_amount: item?.price * 100,
+      },
+      quantity: item?.qty,
+    };
+  });
   //9.Make payment(stripe)
   const session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        price_data: {
-          currency: "usd",
-          product_data: {
-            name: "Hats",
-            description: "Best hat",
-          },
-          unit_amount: 1e3,
-        },
-        quantity: 2,
-      },
-    ],
+    line_items: convertedOrders,
+    metadata: {
+      orderID: order?._id.toString(),
+    },
     mode: "payment",
     success_url: "http://localhost:3000/success",
     cancel_url: "http://localhost:3000/cancel",
   });
   res.send({ url: session.url });
-  //10.Payment webhook
-  
-  //11.Update the user order
-
-  /*res.json({ status: "success", message: "Order created", Order, user });*/
 });
