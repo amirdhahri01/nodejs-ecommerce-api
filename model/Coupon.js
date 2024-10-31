@@ -27,8 +27,51 @@ const CouponSchema = new Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true } }
 );
+
+//1.check if coupon is expired
+
+CouponSchema.virtual("isExpired").get(function () {
+  const coupon = this;
+  return coupon.endDate > Date.now();
+});
+
+//2.validation of the date
+
+CouponSchema.pre("validate", function (next) {
+  const coupon = this;
+  if (coupon.endDate <= coupon.startDate) {
+    next(new Error("End date cannot be less than the start date"));
+  }
+  next();
+});
+
+CouponSchema.pre("validate", function (next) {
+  const coupon = this;
+  if (coupon.startDate < Date.now()) {
+    next(new Error("Start date cannot be less than today"));
+  }
+  next();
+});
+
+CouponSchema.pre("validate", function (next) {
+  const coupon = this;
+  if (coupon.endDate < Date.now()) {
+    next(new Error("End date cannot be less than today"));
+  }
+  next();
+});
+
+//3.validation of the discount
+
+CouponSchema.pre("validate", function (next) {
+  const coupon = this;
+  if (coupon.star === 0 || coupon.discount > 100) {
+    next(new Error("Discount cannot be less than 0 or greater than 100"));
+  }
+  next();
+});
 
 const Coupon = mongoose.model("Coupon", CouponSchema);
 
