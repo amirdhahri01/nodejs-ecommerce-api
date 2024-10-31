@@ -13,7 +13,7 @@ const colorRoutes = express.Router();
 colorRoutes.post("/", isLoggedIn, createColorCtrl);
 colorRoutes.get("/", getColorsCtrl);
 colorRoutes.get("/:id", getColorCtrl);
-colorRoutes.put("/:id/update", isLoggedIn, updateColorCtrl);
-colorRoutes.delete("/:id/delete", isLoggedIn, deleteColorCtrl);
+colorRoutes.put("/update/:id", isLoggedIn, updateColorCtrl);
+colorRoutes.delete("/delete/:id", isLoggedIn, deleteColorCtrl);
 
 export default colorRoutes;

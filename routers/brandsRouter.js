@@ -13,7 +13,7 @@ const brandRoutes = express.Router();
 brandRoutes.post("/", isLoggedIn, createBrandCtrl);
 brandRoutes.get("/", getBrandsCtrl);
 brandRoutes.get("/:id", getBrandCtrl);
-brandRoutes.put("/:id/update", isLoggedIn, updateBrandCtrl);
-brandRoutes.delete("/:id/delete", isLoggedIn, deleteBrandCtrl);
+brandRoutes.put("/update/:id", isLoggedIn, updateBrandCtrl);
+brandRoutes.delete("/delete/:id", isLoggedIn, deleteBrandCtrl);
 
 export default brandRoutes;

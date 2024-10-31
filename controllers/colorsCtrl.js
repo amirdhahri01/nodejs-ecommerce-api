@@ -58,7 +58,7 @@ export const getColorCtrl = asyncHandler(async (req, res) => {
 
 /**
  * @description Update color
- * @route PUT /api/v1/colors/:id/update
+ * @route PUT /api/v1/colors/update/:id
  * @access Private/Admin
  */
 

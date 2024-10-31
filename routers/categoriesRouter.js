@@ -13,7 +13,7 @@ const categoryRoutes = express.Router();
 categoryRoutes.post("/", isLoggedIn, createCategoryCtrl);
 categoryRoutes.get("/", getCategoriesCtrl);
 categoryRoutes.get("/:id", getCategoryCtrl);
-categoryRoutes.put("/:id/update", isLoggedIn, updateCategoryCtrl);
-categoryRoutes.delete("/:id/delete", isLoggedIn, deleteCategoryCtrl);
+categoryRoutes.put("/update/:id", isLoggedIn, updateCategoryCtrl);
+categoryRoutes.delete("/delete/:id", isLoggedIn, deleteCategoryCtrl);
 
 export default categoryRoutes;

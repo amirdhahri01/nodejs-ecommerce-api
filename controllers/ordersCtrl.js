@@ -83,11 +83,43 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
  * @access  Private
  */
 
-export const getAllOrdersCtrl = asyncHandler(async (req, res) => {
+export const getOrdersCtrl = asyncHandler(async (req, res) => {
   const orders = await Order.find();
   res.json({
     status: "success",
     message: "Orders fetched successfully",
     orders,
+  });
+});
+
+/**
+ * @description Get single order
+ * @route   GET /api/v1/orders/:id
+ * @access  Private/admin
+ */
+
+export const getOrderCtrl = asyncHandler(async (req, res) => {
+  const orderID = req.params.id;
+  const order = await Order.findById(orderID);
+  res.json({ status: "success", message: "Order fetched successfully", order });
+});
+
+/**
+ * @description Update order to delivered
+ * @route   PUT /api/v1/orders/update/:id
+ * @access  Private/admin
+ */
+
+export const updateOrderCtrl = asyncHandler(async (req, res) => {
+  const orderID = req.params.id;
+  const updatedOrder = await Order.findByIdAndUpdate(
+    orderID,
+    { status: req.body.status },
+    { new: true }
+  );
+  res.json({
+    status: "success",
+    message: "Order updated successfully",
+    updatedOrder,
   });
 });
