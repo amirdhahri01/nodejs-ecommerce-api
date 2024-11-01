@@ -7,13 +7,14 @@ import {
   getColorsCtrl,
   updateColorCtrl,
 } from "../controllers/colorsCtrl.js";
+import isAdmin from "../middlewares/isAdmin.js";
 
 const colorRoutes = express.Router();
 
-colorRoutes.post("/", isLoggedIn, createColorCtrl);
+colorRoutes.post("/", isLoggedIn, isAdmin, createColorCtrl);
 colorRoutes.get("/", getColorsCtrl);
 colorRoutes.get("/:id", getColorCtrl);
-colorRoutes.put("/update/:id", isLoggedIn, updateColorCtrl);
-colorRoutes.delete("/delete/:id", isLoggedIn, deleteColorCtrl);
+colorRoutes.put("/update/:id", isLoggedIn, isAdmin, updateColorCtrl);
+colorRoutes.delete("/delete/:id", isLoggedIn, isAdmin, deleteColorCtrl);
 
 export default colorRoutes;
