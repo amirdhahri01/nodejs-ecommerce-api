@@ -8,10 +8,11 @@ import {
 } from "../controllers/productsCtrl.js";
 import { isLoggedIn } from "../middlewares/isLoggedIn.js";
 import upload from "../config/fileUpload.js";
+import isAdmin from "../middlewares/isAdmin.js";
 
 const productRoutes = express.Router();
 
-productRoutes.post("/", isLoggedIn, upload.array("files"), createProductCtrl);
+productRoutes.post("/", isLoggedIn, isAdmin , upload.array("files"), createProductCtrl);
 productRoutes.get("/", getProductsCtrl);
 productRoutes.get("/:id", getProductCtrl);
 productRoutes.put("/update/:id", isLoggedIn, updateProductCtrl);

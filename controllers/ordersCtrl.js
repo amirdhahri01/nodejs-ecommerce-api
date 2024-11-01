@@ -137,11 +137,32 @@ export const getOrdersStatsCtrl = asyncHandler(async (req, res) => {
       },
     },
   ]);
+  //2.get saleToday
+  const date = new Date();
+  const today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const saleToday = await Order.aggregate([
+    {
+      $match: {
+        createdAt: {
+          $gte: today,
+        },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalSales: {
+          $sum: "$totalPrice",
+        },
+      },
+    },
+  ]);
   //.send response
   res.status(200).json({
     status: "success",
     message: "Orders statistics",
     statistics,
+    saleToday,
   });
 });
 
