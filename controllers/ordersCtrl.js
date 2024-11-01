@@ -39,7 +39,7 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
   //5.Check if order is not empty
   if (orderItems?.length <= 0) {
     throw new Error("No order items");
-  } 
+  }
   //6.Place/create order - save into DB
   const order = await Order.create({
     user: user?._id,
@@ -48,7 +48,7 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
     totalPrice: coupondFound ? totalPrice - totalPrice * discount : totalPrice,
   });
   console.log(order);
-  
+
   //7.Push order into user
   user.orders.push(order?._id);
   //8.Resave
@@ -116,6 +116,25 @@ export const getOrderCtrl = asyncHandler(async (req, res) => {
   const orderID = req.params.id;
   const order = await Order.findById(orderID);
   res.json({ status: "success", message: "Order fetched successfully", order });
+});
+
+/**
+ * @description Get sales sum of orders
+ * @route   GET /api/v1/orders/sales/sum
+ * @access  Private/admin
+ */
+
+export const getSalesSumCtrl = asyncHandler(async (req, res) => {
+  //1.get the sales
+  const sales = await Order.aggregate([
+    { $group: { _id: null, totalSales: { $sum: "$totalPrice" } } },
+  ]);
+  //.send response
+  res.status(200).json({
+    status: "success",
+    message: "Sum of orders",
+    sales,
+  });
 });
 
 /**
