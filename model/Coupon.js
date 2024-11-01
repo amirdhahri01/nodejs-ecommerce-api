@@ -34,7 +34,7 @@ const CouponSchema = new Schema(
 
 CouponSchema.virtual("isExpired").get(function () {
   const coupon = this;
-  return coupon.endDate > Date.now();
+  return coupon.endDate < Date.now();
 });
 
 CouponSchema.virtual("daysLeft").get(function () {
