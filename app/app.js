@@ -74,6 +74,6 @@ app.use("/api/v1/reviews", reviewRoutes);
 app.use("/api/v1/orders", orderRoutes);
 app.use("/api/v1/coupons" , couponRoutes)
 //Err middleware
-app.use(notFound);
+app.use(notFound); 
 app.use(globalErrHandler);
 export default app;
