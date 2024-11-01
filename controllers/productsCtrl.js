@@ -2,7 +2,6 @@ import Brand from "../model/Brand.js";
 import Category from "../model/Category.js";
 import Product from "../model/Product.js";
 import asyncHandler from "express-async-handler";
-
 /**
  * @description  Create new product
  * @route  POST /api/v1/products
@@ -33,6 +32,7 @@ export const createProductCtrl = asyncHandler(async (req, res) => {
   }
   //create the product
   const product = await Product.create({
+    images: req.files.map((file) => file.path),
     name,
     description,
     category,

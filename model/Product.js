@@ -37,7 +37,7 @@ const ProductSchema = new Schema(
     images: [
       {
         type: String,
-        default: "https://placehold.co/600x400",
+        required: true,
       },
     ],
     reviews: [

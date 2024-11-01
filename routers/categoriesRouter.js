@@ -7,10 +7,16 @@ import {
   getCategoryCtrl,
   updateCategoryCtrl,
 } from "../controllers/categoriesCtrl.js";
+import categoryFileUpload from "../config/categoryUpload.js";
 
 const categoryRoutes = express.Router();
 
-categoryRoutes.post("/", isLoggedIn, createCategoryCtrl);
+categoryRoutes.post(
+  "/",
+  isLoggedIn,
+  categoryFileUpload.single("file"),
+  createCategoryCtrl
+);
 categoryRoutes.get("/", getCategoriesCtrl);
 categoryRoutes.get("/:id", getCategoryCtrl);
 categoryRoutes.put("/update/:id", isLoggedIn, updateCategoryCtrl);

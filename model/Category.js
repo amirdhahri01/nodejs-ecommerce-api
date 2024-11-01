@@ -14,7 +14,6 @@ const CategorySchema = new Schema(
     },
     image: {
       type: String,
-      default: "https://placehold.co/600x400",
       required: true,
     },
     products: [
