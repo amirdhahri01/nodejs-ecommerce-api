@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import cors from "cors";
 dotenv.config();
 import express from "express";
 import dbConnect from "../config/dbConnect.js";
@@ -16,7 +17,8 @@ import couponRoutes from "../routers/couponsRouter.js";
 //db connect
 dbConnect();
 const app = express();
-
+//cors
+app.use(cors());
 //Stripe webhook
 const stripe = new Stripe(process.env.STRIPE_KEY);
 const endpointSecret =
@@ -72,8 +74,8 @@ app.use("/api/v1/brands", brandRoutes);
 app.use("/api/v1/colors", colorRoutes);
 app.use("/api/v1/reviews", reviewRoutes);
 app.use("/api/v1/orders", orderRoutes);
-app.use("/api/v1/coupons" , couponRoutes)
+app.use("/api/v1/coupons", couponRoutes);
 //Err middleware
-app.use(notFound); 
+app.use(notFound);
 app.use(globalErrHandler);
 export default app;
