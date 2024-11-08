@@ -27,7 +27,7 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
     throw new Error("Coupon doesn't exists");
   }
   //2.Get discount
-  const discount = coupondFound?.discount / 100;
+  // const discount = coupondFound?.discount / 100;
   //2.Get the payload(customer(user),orderItems,shippingAddress,totalPrice)
   const { orderItems, shippingAddress, totalPrice } = req.body;
   //3.Find the user
@@ -45,10 +45,9 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
     user: user?._id,
     orderItems,
     shippingAddress,
-    totalPrice: coupondFound ? totalPrice - totalPrice * discount : totalPrice,
+    totalPrice
+    // totalPrice: coupondFound ? totalPrice - totalPrice * discount : totalPrice,
   });
-  console.log(order);
-
   //7.Push order into user
   user.orders.push(order?._id);
   //8.Resave
