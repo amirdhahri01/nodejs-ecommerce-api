@@ -16,7 +16,7 @@ export const createBrandCtrl = asyncHandler(async (req, res) => {
   }
   //create Brand
   const brand = await Brand.create({
-    name,
+    name :  name.toLowerCase(),
     user: req.userAuthId,
   });
   res.json({
