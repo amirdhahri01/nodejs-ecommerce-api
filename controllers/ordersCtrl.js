@@ -45,7 +45,7 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
     user: user?._id,
     orderItems,
     shippingAddress,
-    totalPrice
+    totalPrice,
     // totalPrice: coupondFound ? totalPrice - totalPrice * discount : totalPrice,
   });
   //7.Push order into user
@@ -97,7 +97,7 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
  */
 
 export const getOrdersCtrl = asyncHandler(async (req, res) => {
-  const orders = await Order.find();
+  const orders = await Order.find().populate("user");
   res.json({
     status: "success",
     message: "Orders fetched successfully",
