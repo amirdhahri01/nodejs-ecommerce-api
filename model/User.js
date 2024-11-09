@@ -47,6 +47,9 @@ const UserSchema = new Schema(
       postalCode: {
         type: String,
       },
+      country: {
+        type: String,
+      },
     },
   },
   {
