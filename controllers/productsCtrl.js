@@ -160,7 +160,13 @@ export const getProductsCtrl = asyncHandler(async (req, res) => {
  */
 
 export const getProductCtrl = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id).populate("reviews");
+  const product = await Product.findById(req.params.id).populate({
+    path: "reviews",
+    populate: {
+      path: "user",
+      select: "fullname",
+    },
+  });
   if (!product) {
     throw new Error("Product not found");
   }
