@@ -21,7 +21,13 @@ productRoutes.post(
 );
 productRoutes.get("/", getProductsCtrl);
 productRoutes.get("/:id", getProductCtrl);
-productRoutes.put("/update/:id", isLoggedIn, isAdmin, updateProductCtrl);
+productRoutes.put(
+  "/update/:id",
+  isLoggedIn,
+  upload.array("files"),
+  isAdmin,
+  updateProductCtrl
+);
 productRoutes.delete("/delete/:id", isLoggedIn, isAdmin, deleteProductCtrl);
 
 export default productRoutes;

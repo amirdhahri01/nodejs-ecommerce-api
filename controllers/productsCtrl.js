@@ -190,6 +190,7 @@ export const updateProductCtrl = asyncHandler(async (req, res) => {
   const product = await Product.findByIdAndUpdate(
     req.params.id,
     {
+      images: req.files.map((file) => file.path),
       name,
       description,
       category,
