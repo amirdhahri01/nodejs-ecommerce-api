@@ -69,6 +69,7 @@ export const updateCategoryCtrl = asyncHandler(async (req, res) => {
   const category = await Category.findByIdAndUpdate(
     req.params.id,
     {
+      image:req.file.path,
       name,
     },
     { new: true }
